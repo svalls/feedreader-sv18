@@ -1,13 +1,3 @@
-// describe("A suite is just a function", function() {
-//   var a;
-
-//   it("and so is a spec", function() {
-//     a = true;
-
-//     expect(a).toBe(true);
-//   });
-// });
-
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
@@ -41,9 +31,17 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-         it('has a URL', function() {
-            // expect(a).toBe(true);
-            //do something
+         it('allFeeds has a URL and the URL is not empty', function() {
+            //sample MDN
+            // array1.forEach(function(element) {
+            //   console.log(element);
+            // });
+            allFeeds.forEach(function(array) {
+            // has a URL defined
+            expect(array.url).toBeDefined();
+            // URL is not empty
+            expect(array.url).not.toBe('');
+            });
          });
 
 
@@ -51,8 +49,14 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-         it('it has a name defined', function() {
-            //do something
+         it('allFeeds has a name and the name is not empty', function() {
+            allFeeds.forEach(function(array) {
+            // has a name defined
+            expect(array.name).toBeDefined();
+            // name is not empty
+            expect(array.name).not.toBe('');
+            //toBeEmpty()
+            });
          });         
     });
 
@@ -65,9 +69,11 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-        it('the menu element is hidden by default', function() {
-            // expect(a).toBe(true);
-            //do something
+
+        it('the menu is hidden by default', function() {
+            var menuHidden = $('body').hasClass('menu-hidden');
+            
+            expect(menuHidden).toBe(true);
          });
 
          /* TODO: Write a test that ensures the menu changes
@@ -76,10 +82,15 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('the menu changes when the menu icon is clicked', function() {
-            //expectation 1: menu display when clicked 
-            // expect(a).toBe(true);
-            //expectation 2: menu hide when clicked again 
-            // expect(a).toBe(true);
+            // event listener - when clicked 
+            $('.menu-icon-link').click();
+            // menu display 
+            expect($('body').hasClass('menu-hidden')).toBe(false);
+            
+            // event listner - when clicked again 
+            $('.menu-icon-link').click();
+            //menu hides
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          });
     });
 
@@ -96,7 +107,6 @@ $(function() {
          */
         it('there is at least a single entry element within the feed container', function() {
             // expect(a).toBe(true);
-            //do something            
         });         
     });
 

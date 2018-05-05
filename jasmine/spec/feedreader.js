@@ -55,7 +55,6 @@ $(function() {
             expect(array.name).toBeDefined();
             // name is not empty
             expect(array.name).not.toBe('');
-            //toBeEmpty()
             });
          });         
     });
@@ -72,7 +71,8 @@ $(function() {
 
         it('the menu is hidden by default', function() {
             var menuHidden = $('body').hasClass('menu-hidden');
-            
+
+            //menu is hidden by default           
             expect(menuHidden).toBe(true);
          });
 
@@ -82,13 +82,15 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('the menu changes when the menu icon is clicked', function() {
-            // event listener - when clicked 
-            $('.menu-icon-link').click();
+            var menuLink = $('.menu-icon-link');
+
+            // event listener - when clicked
+            menuLink.click();
             // menu display 
             expect($('body').hasClass('menu-hidden')).toBe(false);
             
-            // event listner - when clicked again 
-            $('.menu-icon-link').click();
+            // event listener - when clicked again 
+            menuLink.click();
             //menu hides
             expect($('body').hasClass('menu-hidden')).toBe(true);
          });
@@ -105,8 +107,18 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it('there is at least a single entry element within the feed container', function() {
-            // expect(a).toBe(true);
+
+         //when the loadFeed function is called and completes its work
+         beforeEach(function(done) {
+            loadFeed(0, done);
+         });
+
+        it('there is an entry element within the feed container', function(done) {
+            var feedLength = $('.feed .entry').length;
+
+            //there is at least a single .entry element within the .feed container
+            expect(feedLength).not.toBe(0);
+            done();
         });         
     });
 
@@ -118,10 +130,26 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it('when a new feed is loaded by the loadFeed function the content changes', function() {
-            // expect(a).toBe(true);
-            //do something
+       
+        var masterContent;
+        var newContent;
+
+        //when new feed is loaded by loadFeed function
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                masterContent = $('.feed').html();
+                done();
+            });
+        });
+
+        it('when a new feed is loaded the content changes', function(done) {
+            loadFeed(1, function() {
+                newContent = $('.feed').html();
+
+                //the content changes
+                expect(newContent).not.toEqual(masterContent);
+                done();
+            });
         });
     });
-
 }());
